@@ -16,7 +16,25 @@ export interface EthereumSwapParams {
 // Reprensents parameters for Wallet Creation Operation
 export interface EthereumWalletCreationPrams {
   total_wallets : number; //total number of wallets need to be created for eg. if user type i want to create 2000 wallets then here it will bw 2000
+  blockchain:string; //name of the bitcoin to which i need to create wallet
 }
+
+export interface cryptocurrencyBridgeAgent {
+  sourceBlockchain:string; //"this is the name of blockchain from where it need to convert"
+  destinationBlockchain:string;  //"this is the name of blockchain to where it need to convert"
+  fromToken:string; //"this is the name of token from where it need to convert"
+  toToken: string;//"this is the name of token to where it need to convert"
+  destinationAddress: string; //"this is the address to where it need to convert"
+  amount:number;//amount of tokens
+}
+
+
+export interface cryptoCurrencyBridgeAgentResponse {
+  agent_id:string;  // The unique ID of the agent
+  name:"cryptoCurrency Bridge";  // The name of the agent
+  params:cryptocurrencyBridgeAgent; //The parameter specific to wallet creation agent
+}
+
 
 //Represent the response for an Wallet Creation Agent
 export interface EthereumWalletCreationAgentResponse {
@@ -40,7 +58,7 @@ export interface EthereumSwapAgentResponse {
 }
 
 // Combined interface for both agent responses
-export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse |  EthereumWalletCreationAgentResponse;
+export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse;
 
 
 
@@ -65,7 +83,25 @@ export interface EthereumSwapParams {
 // Reprensents parameters for Wallet Creation Operation
 export interface EthereumWalletCreationPrams {
   total_wallets : number; //total number of wallets need to be created for eg. if user type i want to create 2000 wallets then here it will bw 2000
+  blockchain:string; //name of the bitcoin to which i need to create wallet
 }
+
+export interface cryptocurrencyBridgeAgent {
+  sourceBlockchain:string; //"this is the name of blockchain from where it need to convert"
+  destinationBlockchain:string;  //"this is the name of blockchain to where it need to convert"
+  fromToken:string; //"this is the name of token from where it need to convert"
+  toToken: string;//"this is the name of token to where it need to convert"
+  destinationAddress: string; //"this is the address to where it need to convert"
+  amount:number;//amount of tokens
+}
+
+
+export interface cryptoCurrencyBridgeAgentResponse {
+  agent_id:string;  // The unique ID of the agent
+  name:"cryptoCurrency Bridge";  // The name of the agent
+  params:cryptocurrencyBridgeAgent; //The parameter specific to wallet creation agent
+}
+
 
 //Represent the response for an Wallet Creation Agent
 export interface EthereumWalletCreationAgentResponse {
@@ -89,8 +125,7 @@ export interface EthereumSwapAgentResponse {
 }
 
 // Combined interface for both agent responses
-export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse |  EthereumWalletCreationAgentResponse;
-
+export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse;
 
 
 
@@ -106,32 +141,33 @@ export interface Parameter {
 //This table contain details about what operation to perform there are two different kinds of operations here
 //1) transfer | swap
 export interface Operation {
-    operation_id: string;          // "1" | "2" | "3"
-    type: string;                  // The type of the operation (e.g., transfer, swap, wallet creation)
-    description: string;           // "Transfers ETH from one account to another." || "Swap tokens on ETH." || "create wallet" || "other"
-    blockchain: string;            // "Ethereum"
+    operation_id: string;          // "1" | "2" | "3" | "4"
+    type: string;                  // The type of the operation (e.g., transfer, swap,  cryptocurrency bridge,  wallet creation)
+    description: string;           // "Transfers ETH from one account to another." || "Swap tokens on ETH." || "cryptocurrency bridge" || "create wallet" || "other"
+    blockchain: string;            // "Ethereum" || "will be mentioned on user request"
     params: Parameter[];           // The list of parameters for the operation
 }
 
 //this are simply different workflow id for different opration
 export interface Workflow {
-    workflow_id: string;           // "1" | "2" | "3"
-    agent_id: string;              // "1" | "2" | "3"
+    workflow_id: string;           // "1" | "2" | "3" | "4"
+    agent_id: string;              // "1" | "2" | "3" | "4"
     operations: Operation[];       // The list of operations in the workflow
 }
 
 //this table contains information about agents which agent perform what action
 export interface Agent {
-    agent_id: string;              // "1" | "2" | "3" | "undefined"
-    name: string;                  // "Ethereum Transfer Agent" | "Ethereum swap Agent" | "wallet creation agent"
-    description: string;           // "This agent handles the transfer of ETH between accounts on the Ethereum blockchain." | "This agent handles the swap of tokens on the Ethereum blockchain." | "this agent create wallets"
+    agent_id: string;              // "1" | "2" | "3" | "4"
+    name: string;                  // "Ethereum Transfer Agent" | "Ethereum swap Agent" | "This agent handles transferring assets between different blockchain networks" | "wallet creation agent"
+    description: string;           // "This agent handles the transfer of ETH between accounts on the Ethereum blockchain." | "This agent handles the swap of tokens on the Ethereum blockchain." | "This agent handles transferring assets between different blockchain networks" | "this agent create wallets"
     icon_url: string;              // "http://example.com/eth-transfer-icon.png" | "http://example.com/eth-transfer-icon.png"
-    workflow: Workflow;            // "1" | "2" | "3" "other"
+    workflow: Workflow;            // "1" | "2" | "3" | "4"
 }
 
 // Different kinds of operations
 // - transfer: Transfers cryptocurrency from one account to another.
 // - swap: Swaps one type of token for another.
+// - cryptocurrency bridge
 // - wallet creation: create multiple wallet on for user. 
 // - stake: Stakes tokens into a staking contract.
 // - withdraw: Withdraws tokens from a staking contract.
@@ -196,10 +232,10 @@ export interface Agent {
       ]
     }
   },
-   {
+  {
     "agent_id": "3",
-    "name": "Create Wallet",
-    "description": "This agent handles creation of wallet.",
+    "name": "cryptocurrency bridge",
+    "description": "This agent handles transferring assets between different blockchain networks",
     "icon_url": "http://example.com/eth-transfer-icon.png",
     "workflow": {
       "workflow_id": "3",
@@ -207,9 +243,65 @@ export interface Agent {
       "operations": [
         {
           "operation_id": "3",
+          "type": "cryptocurrency bridge",
+          "description": "transferring assets between different blockchain networks",
+          "blockchain": "Ethereum",
+          "params": [
+            {
+              "name": "sourceBlockchain",
+              "type": "string",
+              "isRequired": true,
+              "description": "The name of the source of the blockchain from where need to perform action"
+            },
+            {
+              "name": "destinationBlockchain",
+              "type": "string",
+              "isRequired": true,
+              "description": "Destination Blockchain Name"
+            },
+            {
+              "name": "fromToken",
+              "type": "string",
+              "isRequired": true,
+              "description": "fromToken Name" //name of from token
+            },
+            {
+              "name": "toToken",
+              "type": "string",
+              "isRequired": true,
+              "description": "toToken Name" //name of to token
+            },
+            {
+              "name": "destinationAddress",
+              "type": "string",
+              "isRequired": true,
+              "description": "Destination Wallet Address" //where to send
+            },
+            {
+              "name": "amount",
+              "type": "number",
+              "default": 0,
+              "description": "The amount to transfer"
+            }
+          ]
+        }
+      ]
+    }
+  },
+   {
+    "agent_id": "4",
+    "name": "Create Wallet",
+    "description": "This agent handles creation of wallet.",
+    "icon_url": "http://example.com/eth-transfer-icon.png",
+    "workflow": {
+      "workflow_id": "4",
+      "agent_id": "4",
+      "operations": [
+        {
+          "operation_id": "4",
           "type": "creation",
           "description": "Create wallet.",
-          "blockchain": "Ethereum",
+          "blockchain": "Ethereum", //by default its Ethereum but generally it could be anything
           
         }
       ]
