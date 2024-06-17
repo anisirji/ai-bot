@@ -1,3 +1,7 @@
+
+
+export const dynamic = 'force-dynamic'
+
 import { translator } from "@/typechat/main";
 import React from "react";
 
@@ -11,6 +15,7 @@ const agents = [
   { message: "i want to transfer 500 from account A to account B" },
   { message: "i want to swap 200 from account C to account D" },
   { message: "i want to create 300 wallets" },
+  { message: "I want swap USDT to SOL from Ethereum to Solana amount 10 adress F1hmxBrZLmY93vvHeuXmZg5bNP98tA44KiAVJB33JedV"}
 ];
 
 async function fetchResponses() {
@@ -44,10 +49,10 @@ const Home = async () => {
           responses.map((response, index) => (
             <div key={index} className="mb-6">
               <div className="flex flex-col lg:flex-row">
-                <div className="bg-gray-800 p-4 rounded-lg shadow-inner m-2 flex-1">
+                <div className="bg-gray-800 p-4 rounded-lg max-w-[600px] shadow-inner m-2 flex-1">
                   <h3 className="text-lg font-semibold mb-2">Request</h3>
                   <pre className="overflow-x-auto">
-                    <code className="text-green-400">
+                    <code className="text-green-400 text-[8px]">
                       {JSON.stringify({ message: agents[index].message }, null, 2)}
                     </code>
                   </pre>
@@ -55,7 +60,7 @@ const Home = async () => {
                 <div className="bg-gray-800 p-4 rounded-lg shadow-inner m-2 flex-1">
                   <h3 className="text-lg font-semibold mb-2">Response</h3>
                   <pre className="overflow-x-auto">
-                    <code className="text-green-400">
+                    <code className="text-green-400 text-xs">
                       {JSON.stringify(response, null, 2)}
                     </code>
                   </pre>

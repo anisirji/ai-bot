@@ -49,7 +49,7 @@ export interface EthereumTransferAgentResponse {
     name: "Ethereum Transfer Agent";  // The name of the agent
     params: EthereumTransferParams;  // The parameters specific to the transfer operation
 }
-
+//sdfhbdskfbsdkfbsjkdf ignore
 // Represents the response for an Ethereum Swap Agent
 export interface EthereumSwapAgentResponse {
     agent_id: string;           // The unique ID of the agent
@@ -57,8 +57,17 @@ export interface EthereumSwapAgentResponse {
     params: EthereumSwapParams;  // The parameters specific to the swap operation
 }
 
+//Represent response for zk airdrop open
+export interface openZkAirdrop {
+  agent_id:string; //agent_id --> 5
+  name:"Z K airdrop";
+  desc:"Create an account that can obtain zksync airdrop";
+
+}
+
+
 // Combined interface for both agent responses
-export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse;
+export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse | openZkAirdrop;
 
 
 
@@ -122,11 +131,20 @@ export interface EthereumSwapAgentResponse {
     agent_id: string;           // The unique ID of the agent
     name: "Ethereum Swap Agent";  // The name of the agent
     params: EthereumSwapParams;  // The parameters specific to the swap operation
+} 
+
+
+//Represent response for zk airdrop open
+export interface openZkAirdrop {
+  agent_id:string; //agent_id --> 5
+  name:"Z K airdrop",
+      desc:"Create an account that can obtain zksync airdrop"
+
 }
 
-// Combined interface for both agent responses
-export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse;
 
+// Combined interface for both agent responses
+export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse | openZkAirdrop;
 
 
 export interface Parameter {
@@ -141,27 +159,27 @@ export interface Parameter {
 //This table contain details about what operation to perform there are two different kinds of operations here
 //1) transfer | swap
 export interface Operation {
-    operation_id: string;          // "1" | "2" | "3" | "4"
-    type: string;                  // The type of the operation (e.g., transfer, swap,  cryptocurrency bridge,  wallet creation)
-    description: string;           // "Transfers ETH from one account to another." || "Swap tokens on ETH." || "cryptocurrency bridge" || "create wallet" || "other"
+    operation_id: string;          // "1" | "2" | "3" | "4" | "5"
+    type: string;                  // The type of the operation (e.g., transfer, swap,  cryptocurrency bridge,  wallet creation, zk airdrop opening)
+    description: string;           // "Transfers ETH from one account to another." || "Swap tokens on ETH." || "cryptocurrency bridge" || "create wallet" || "zk airdrop open"
     blockchain: string;            // "Ethereum" || "will be mentioned on user request"
     params: Parameter[];           // The list of parameters for the operation
 }
 
 //this are simply different workflow id for different opration
 export interface Workflow {
-    workflow_id: string;           // "1" | "2" | "3" | "4"
-    agent_id: string;              // "1" | "2" | "3" | "4"
+    workflow_id: string;           // "1" | "2" | "3" | "4" | "5"
+    agent_id: string;              // "1" | "2" | "3" | "4" | "5"
     operations: Operation[];       // The list of operations in the workflow
 }
 
 //this table contains information about agents which agent perform what action
 export interface Agent {
-    agent_id: string;              // "1" | "2" | "3" | "4"
-    name: string;                  // "Ethereum Transfer Agent" | "Ethereum swap Agent" | "This agent handles transferring assets between different blockchain networks" | "wallet creation agent"
-    description: string;           // "This agent handles the transfer of ETH between accounts on the Ethereum blockchain." | "This agent handles the swap of tokens on the Ethereum blockchain." | "This agent handles transferring assets between different blockchain networks" | "this agent create wallets"
+    agent_id: string;              // "1" | "2" | "3" | "4" | "5"
+    name: string;                  // "Ethereum Transfer Agent" | "Ethereum swap Agent" | "This agent handles transferring assets between different blockchain networks" | "wallet creation agent"  | "zk airdrop open agent"
+    description: string;           // "This agent handles the transfer of ETH between accounts on the Ethereum blockchain." | "This agent handles the swap of tokens on the Ethereum blockchain." | "This agent handles transferring assets between different blockchain networks" | "this agent create wallets" | "This is used to open zk airdrop"
     icon_url: string;              // "http://example.com/eth-transfer-icon.png" | "http://example.com/eth-transfer-icon.png"
-    workflow: Workflow;            // "1" | "2" | "3" | "4"
+    workflow: Workflow;            // "1" | "2" | "3" | "4" | "5"
 }
 
 // Different kinds of operations
@@ -175,6 +193,7 @@ export interface Agent {
 // - removeLiquidity: Removes liquidity from a liquidity pool.
 // - approve: Approves a certain amount of tokens for spending by a contract.
 // - delegate: Delegates tokens to another address for governance purposes.
+// - open: open zk airdrop
 
 //refer to the below data for more example
 /*
@@ -303,6 +322,24 @@ export interface Agent {
           "description": "Create wallet.",
           "blockchain": "Ethereum", //by default its Ethereum but generally it could be anything
           
+        }
+      ]
+    }
+  },
+  {
+    "agent_id": "5",
+    "name": "ZK Airdrop",
+    "description": "This agent handles zk airdrop.",
+    "icon_url": "http://example.com/eth-transfer-icon.png",
+    "workflow": {
+      "workflow_id": "5",
+      "agent_id": "5",
+      "operations": [
+        {
+          "operation_id": "5",
+    desc:"Create an account that can obtain zksync airdrop".,
+          "SamplePropmt": "open zk airdrop",
+         // "Comment" : "Whenever user type this propmt regarding opening zk airdrop then we send this agent"          
         }
       ]
     }
