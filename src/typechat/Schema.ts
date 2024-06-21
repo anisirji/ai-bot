@@ -1,38 +1,45 @@
-
-// Represents parameters for an Ethereum transfer operation
-export interface EthereumTransferParams {
-    toAddress: string;   // The Ethereum address to which the ETH will be sent
-    amount: number;      // The amount of ETH to transfer, specified in ether (not wei)
-}
-
-// Represents parameters for an Ethereum swap operation
-export interface EthereumSwapParams {
-    fromToken: string;   // The token to swap from
-    toToken: string;     // The token to swap to
-    amount: number;      // The amount of tokens to swap
-    amountType: string;  // Specifies whether the amount is for the fromToken or toToken
-}
-
 // Reprensents parameters for Wallet Creation Operation
 export interface EthereumWalletCreationPrams {
   total_wallets : number; //total number of wallets need to be created for eg. if user type i want to create 2000 wallets then here it will bw 2000
   blockchain:string; //name of the bitcoin to which i need to create wallet
 }
 
-export interface cryptocurrencyBridgeAgent {
-  sourceBlockchain:string; //"this is the name of blockchain from where it need to convert"
-  destinationBlockchain:string;  //"this is the name of blockchain to where it need to convert"
-  fromToken:string; //"this is the name of token from where it need to convert"
-  toToken: string;//"this is the name of token to where it need to convert"
-  destinationAddress: string; //"this is the address to where it need to convert"
-  amount:number;//amount of tokens
+// Represents individual parameter details for a cryptocurrency bridge operation
+export interface CryptocurrencyBridgeParamDetail {
+    name: string;          // The name of the parameter
+    type: string;          // The data type of the parameter
+    description: string;   // The description of the parameter
+    isRequired: boolean;   // Whether the parameter is required
+    value?: string | number; // The value of the parameter (optional)
 }
 
+// Represents parameters for a cryptocurrency bridge operation
+export interface CryptocurrencyBridgeParams {
+    sourceBlockchain: string;      // The name of the source blockchain
+    destinationBlockchain: string; // The name of the destination blockchain
+    fromToken: string;             // The token to convert from
+    toToken: string;               // The token to convert to
+    destinationAddress: string;    // The destination wallet address
+    amount: number;                // The amount of tokens to transfer
+}
 
-export interface cryptoCurrencyBridgeAgentResponse {
-  agent_id:string;  // The unique ID of the agent
-  name:"cryptoCurrency Bridge";  // The name of the agent
-  params:cryptocurrencyBridgeAgent; //The parameter specific to wallet creation agent
+// Represents the response for a Cryptocurrency Bridge Agent
+export interface CryptocurrencyBridgeAgentResponse {
+    agent_id: string;                      // The unique ID of the agent
+    name: string;                          // The name of the agent
+    description: string;                   // The description of the agent
+    icon_url: string;                      // The URL to the agent's icon
+    workflow: {
+        workflow_id: string;               // The unique ID of the workflow
+        agent_id: string;                  // The unique ID of the agent
+        operations: {
+            operation_id: string;          // The unique ID of the operation
+            type: string;                  // The type of the operation
+            description: string;           // The description of the operation
+            blockchain: string;            // The blockchain type
+            params: CryptocurrencyBridgeParamDetail[]; // The parameters for the operation
+        }[];
+    };
 }
 
 
@@ -42,19 +49,75 @@ export interface EthereumWalletCreationAgentResponse {
   name:"Wallet Creation Agent";  // The name of the agent
   params:EthereumWalletCreationPrams; //The parameter specific to wallet creation agent
 }
+// Represents individual parameter details for an Ethereum transfer operation
+export interface EthereumTransferParamDetail {
+    name: string;          // The name of the parameter
+    type: string;          // The data type of the parameter
+    description: string;   // The description of the parameter
+    isRequired: boolean;   // Whether the parameter is required
+    value: string | number; // The value of the parameter
+}
+
+// Represents parameters for an Ethereum transfer operation
+export interface EthereumTransferParams {
+    toAddress: string;   // The Ethereum address to which the ETH will be sent
+    amount: number;      // The amount of ETH to transfer, specified in ether (not wei)
+}
 
 // Represents the response for an Ethereum Transfer Agent
 export interface EthereumTransferAgentResponse {
-    agent_id: string;              // The unique ID of the agent
-    name: "Ethereum Transfer Agent";  // The name of the agent
-    params: EthereumTransferParams;  // The parameters specific to the transfer operation
+    agent_id: string;                        // The unique ID of the agent
+    name: string;                            // The name of the agent
+    description: string;                     // The description of the agent
+    icon_url: string;                        // The URL to the agent's icon
+    workflow: {
+        workflow_id: string;                 // The unique ID of the workflow
+        agent_id: string;                    // The unique ID of the agent
+        operations: {
+            operation_id: string;            // The unique ID of the operation
+            type: string;                    // The type of the operation
+            description: string;             // The description of the operation
+            blockchainType: string;          // The blockchain type (default is 'ETH')
+            walletAddress: string;           // The wallet address (default is empty)
+            params: EthereumTransferParamDetail[]; // The parameters for the operation
+        }[];
+    };
 }
-//sdfhbdskfbsdkfbsjkdf ignore
+
+
+// Represents individual parameter details for an Ethereum swap operation
+export interface EthereumSwapParamDetail {
+    name: string;          // The name of the parameter
+    type: string;          // The data type of the parameter
+    description: string;   // The description of the parameter
+    isRequired: boolean;   // Whether the parameter is required
+    value: string | number; // The value of the parameter
+}
+
+// Represents parameters for an Ethereum swap operation
+export interface EthereumSwapParams {
+    fromToken: string;   // The token to swap from
+    toToken: string;     // The token to swap to
+    amount: number;      // The amount of tokens to swap
+}
+
 // Represents the response for an Ethereum Swap Agent
 export interface EthereumSwapAgentResponse {
-    agent_id: string;           // The unique ID of the agent
-    name: "Ethereum Swap Agent";  // The name of the agent
-    params: EthereumSwapParams;  // The parameters specific to the swap operation
+    agent_id: string;                       // The unique ID of the agent
+    name: string;                           // The name of the agent
+    description: string;                    // The description of the agent
+    icon_url: string;                       // The URL to the agent's icon
+    workflow: {
+        workflow_id: string;                // The unique ID of the workflow
+        agent_id: string;                   // The unique ID of the agent
+        operations: {
+            operation_id: string;           // The unique ID of the operation
+            type: string;                   // The type of the operation
+            description: string;            // The description of the operation
+            blockchain: string;             // The blockchain type
+            params: EthereumSwapParamDetail[]; // The parameters for the operation
+        }[];
+    };
 }
 
 //Represent response for zk airdrop open
@@ -67,7 +130,7 @@ export interface openZkAirdrop {
 
 
 // Combined interface for both agent responses
-export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse | openZkAirdrop;
+export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse |  CryptocurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse | openZkAirdrop;
 
 
 
@@ -75,19 +138,7 @@ export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentRes
 export const agentSchema = `
 
 
-// Represents parameters for an Ethereum transfer operation
-export interface EthereumTransferParams {
-    toAddress: string;   // The Ethereum address to which the ETH will be sent
-    amount: number;      // The amount of ETH to transfer, specified in ether (not wei)
-}
 
-// Represents parameters for an Ethereum swap operation
-export interface EthereumSwapParams {
-    fromToken: string;   // The token to swap from
-    toToken: string;     // The token to swap to
-    amount: number;      // The amount of tokens to swap
-    amountType: string;  // Specifies whether the amount is for the fromToken or toToken
-}
 
 // Reprensents parameters for Wallet Creation Operation
 export interface EthereumWalletCreationPrams {
@@ -95,20 +146,42 @@ export interface EthereumWalletCreationPrams {
   blockchain:string; //name of the bitcoin to which i need to create wallet
 }
 
-export interface cryptocurrencyBridgeAgent {
-  sourceBlockchain:string; //"this is the name of blockchain from where it need to convert"
-  destinationBlockchain:string;  //"this is the name of blockchain to where it need to convert"
-  fromToken:string; //"this is the name of token from where it need to convert"
-  toToken: string;//"this is the name of token to where it need to convert"
-  destinationAddress: string; //"this is the address to where it need to convert"
-  amount:number;//amount of tokens
+// Represents individual parameter details for a cryptocurrency bridge operation
+export interface CryptocurrencyBridgeParamDetail {
+    name: string;          // The name of the parameter
+    type: string;          // The data type of the parameter
+    description: string;   // The description of the parameter
+    isRequired: boolean;   // Whether the parameter is required
+    value?: string | number; // The value of the parameter (optional)
 }
 
+// Represents parameters for a cryptocurrency bridge operation
+export interface CryptocurrencyBridgeParams {
+    sourceBlockchain: string;      // The name of the source blockchain
+    destinationBlockchain: string; // The name of the destination blockchain
+    fromToken: string;             // The token to convert from
+    toToken: string;               // The token to convert to
+    destinationAddress: string;    // The destination wallet address
+    amount: number;                // The amount of tokens to transfer
+}
 
-export interface cryptoCurrencyBridgeAgentResponse {
-  agent_id:string;  // The unique ID of the agent
-  name:"cryptoCurrency Bridge";  // The name of the agent
-  params:cryptocurrencyBridgeAgent; //The parameter specific to wallet creation agent
+// Represents the response for a Cryptocurrency Bridge Agent
+export interface CryptocurrencyBridgeAgentResponse {
+    agent_id: string;                      // The unique ID of the agent
+    name: string;                          // The name of the agent
+    description: string;                   // The description of the agent
+    icon_url: string;                      // The URL to the agent's icon
+    workflow: {
+        workflow_id: string;               // The unique ID of the workflow
+        agent_id: string;                  // The unique ID of the agent
+        operations: {
+            operation_id: string;          // The unique ID of the operation
+            type: string;                  // The type of the operation
+            description: string;           // The description of the operation
+            blockchain: string;            // The blockchain type
+            params: CryptocurrencyBridgeParamDetail[]; // The parameters for the operation
+        }[];
+    };
 }
 
 
@@ -118,33 +191,90 @@ export interface EthereumWalletCreationAgentResponse {
   name:"Wallet Creation Agent";  // The name of the agent
   params:EthereumWalletCreationPrams; //The parameter specific to wallet creation agent
 }
+// Represents individual parameter details for an Ethereum transfer operation
+export interface EthereumTransferParamDetail {
+    name: string;          // The name of the parameter
+    type: string;          // The data type of the parameter
+    description: string;   // The description of the parameter
+    isRequired: boolean;   // Whether the parameter is required
+    value: string | number; // The value of the parameter
+}
+
+// Represents parameters for an Ethereum transfer operation
+export interface EthereumTransferParams {
+    toAddress: string;   // The Ethereum address to which the ETH will be sent
+    amount: number;      // The amount of ETH to transfer, specified in ether (not wei)
+}
 
 // Represents the response for an Ethereum Transfer Agent
 export interface EthereumTransferAgentResponse {
-    agent_id: string;              // The unique ID of the agent
-    name: "Ethereum Transfer Agent";  // The name of the agent
-    params: EthereumTransferParams;  // The parameters specific to the transfer operation
+    agent_id: string;                        // The unique ID of the agent
+    name: string;                            // The name of the agent
+    description: string;                     // The description of the agent
+    icon_url: string;                        // The URL to the agent's icon
+    workflow: {
+        workflow_id: string;                 // The unique ID of the workflow
+        agent_id: string;                    // The unique ID of the agent
+        operations: {
+            operation_id: string;            // The unique ID of the operation
+            type: string;                    // The type of the operation
+            description: string;             // The description of the operation
+            blockchainType: string;          // The blockchain type (default is 'ETH')
+            walletAddress: string;           // The wallet address (default is empty)
+            params: EthereumTransferParamDetail[]; // The parameters for the operation
+        }[];
+    };
+}
+
+
+// Represents individual parameter details for an Ethereum swap operation
+export interface EthereumSwapParamDetail {
+    name: string;          // The name of the parameter
+    type: string;          // The data type of the parameter
+    description: string;   // The description of the parameter
+    isRequired: boolean;   // Whether the parameter is required
+    value: string | number; // The value of the parameter
+}
+
+// Represents parameters for an Ethereum swap operation
+export interface EthereumSwapParams {
+    fromToken: string;   // The token to swap from
+    toToken: string;     // The token to swap to
+    amount: number;      // The amount of tokens to swap
 }
 
 // Represents the response for an Ethereum Swap Agent
 export interface EthereumSwapAgentResponse {
-    agent_id: string;           // The unique ID of the agent
-    name: "Ethereum Swap Agent";  // The name of the agent
-    params: EthereumSwapParams;  // The parameters specific to the swap operation
-} 
-
+    agent_id: string;                       // The unique ID of the agent
+    name: string;                           // The name of the agent
+    description: string;                    // The description of the agent
+    icon_url: string;                       // The URL to the agent's icon
+    workflow: {
+        workflow_id: string;                // The unique ID of the workflow
+        agent_id: string;                   // The unique ID of the agent
+        operations: {
+            operation_id: string;           // The unique ID of the operation
+            type: string;                   // The type of the operation
+            description: string;            // The description of the operation
+            blockchain: string;             // The blockchain type
+            params: EthereumSwapParamDetail[]; // The parameters for the operation
+        }[];
+    };
+}
 
 //Represent response for zk airdrop open
 export interface openZkAirdrop {
   agent_id:string; //agent_id --> 5
-  name:"Z K airdrop",
-      desc:"Create an account that can obtain zksync airdrop"
+  name:"Z K airdrop";
+  desc:"Create an account that can obtain zksync airdrop";
 
 }
 
 
 // Combined interface for both agent responses
-export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse | cryptoCurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse | openZkAirdrop;
+export type AgentResponse = EthereumTransferAgentResponse | EthereumSwapAgentResponse |  CryptocurrencyBridgeAgentResponse | EthereumWalletCreationAgentResponse | openZkAirdrop;
+
+
 
 
 export interface Parameter {
@@ -197,33 +327,41 @@ export interface Agent {
 
 //refer to the below data for more example
 /*
-[
-  {
+{
+  "agent_id": "1",
+  "name": "Ethereum Transfer Agent",
+  "description": "This agent handles the transfer of ETH between accounts on the Ethereum blockchain.",
+  "icon_url": "http://example.com/eth-transfer-icon.png",
+  "workflow": {
+    "workflow_id": "1",
     "agent_id": "1",
-    "name": "Ethereum Transfer Agent",
-    "description": "This agent handles the transfer of ETH between accounts on the Ethereum blockchain.",
-    "icon_url": "http://example.com/eth-transfer-icon.png",
-    "workflow": {
-      "workflow_id": "1",
-      "agent_id": "1",
-      "operations": [
-        {
-          "operation_id": "1",
-          "type": "transfer",
-          "description": "Transfers ETH from one account to another.",
-          "blockchain": "Ethereum",
-          "params": [
-            {
-              "name": "amount",
-              "type": "number",
-              "description": "The amount of ETH to transfer, specified in ether (not wei).",
-              "isRequired": true
-            }
-          ]
-        }
-      ]
-    }
-  },
+    "operations": [
+      {
+        "operation_id": "1",
+        "type": "transfer",
+        "description": "Transfers ETH from one account to another.",
+        "blockchainType": "ETHEREUM",  // AI is required for identification here, and the default is 'ETH'. 
+        "walletAddress": "", // AI is required for identification here, and the default is empty.
+        "params": [
+          {
+            "name": "toAddress",
+            "type": "string",
+            "description": "The Ethereum address to which the ETH will be sent.",
+            "isRequired": true,
+            "value": "" // AI is required for identification here, and the default is empty.
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "description": "The amount of ETH to transfer, specified in ether (not wei).",
+            "isRequired": true,
+            "value": "" // AI is required for identification here, and the default is empty.
+          }
+        ]
+      }
+    ]
+  }
+},
   {
     "agent_id": "2",
     "name": "Ethereum swap Agent",
@@ -240,11 +378,25 @@ export interface Agent {
           "blockchain": "Ethereum",
           "params": [
             {
-              "name": "amountType",
+              "name": "fromToken",
               "type": "string",
-              "description": "Specifies whether the amount is for the fromToken or toToken.",
+              "description": "Specifies the fromToken ",
               "isRequired": true,
-              "options": ["fromToken", "toToken"]
+              "value":,//Actual value
+            },
+            {
+              "name": "toToken",
+              "type": "string",
+              "description": "Specifies the toToken ",
+              "isRequired": true,
+              "value":,//Actual value
+            },
+            {
+              "name": "amount",
+              "type": "number",
+              "description": "Specifies the amount ",
+              "isRequired": true,
+              "value":,//Actual value
             }
           ]
         }
@@ -347,4 +499,3 @@ export interface Agent {
 ]
 */
 `;
-
